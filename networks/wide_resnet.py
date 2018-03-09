@@ -136,8 +136,8 @@ class WideResNet:
         change_lr = LearningRateScheduler(self.scheduler)
         checkpoint = ModelCheckpoint(self.model_filename, 
                 monitor='val_loss', verbose=0, save_best_only= True, mode='auto')
-        plot_callback = PlotLearning()
-        cbks = [change_lr,tb_cb,checkpoint,plot_callback]
+        # plot_callback = PlotLearning()
+        cbks = [change_lr,tb_cb,checkpoint]
 
         # set data augmentation
         print('Using real-time data augmentation.')
@@ -154,8 +154,9 @@ class WideResNet:
                             validation_data=(x_test, y_test))
         resnet.save(self.model_filename)
 
-        self.param_count = self._model.count_params()
         self._model = resnet
+        self.param_count = self._model.count_params()
+
 
     def color_process(self, imgs):
         if imgs.ndim < 4:

@@ -126,10 +126,10 @@ class NetworkInNetwork:
                                     verbose=0,
                                     save_best_only= True,
                                     mode='auto')
-        plot_callback = PlotLearning()
+        # plot_callback = PlotLearning()
         tb_cb = TensorBoard(log_dir=self.log_filepath, histogram_freq=0)
 
-        cbks = [checkpoint, plot_callback, tb_cb]
+        cbks = [checkpoint, tb_cb]
 
         # set data augmentation
         print('Using real-time data augmentation.')

@@ -151,8 +151,8 @@ class DenseNet:
         tb_cb     = TensorBoard(log_dir=self.log_filepath, histogram_freq=0)
         change_lr = LearningRateScheduler(self.scheduler)
         ckpt      = ModelCheckpoint(self.model_filename, monitor='val_loss', verbose=0, save_best_only= True, mode='auto')
-        plot_callback = PlotLearning()
-        cbks      = [change_lr,tb_cb,ckpt, plot_callback]
+        # plot_callback = PlotLearning()
+        cbks      = [change_lr,tb_cb,ckpt]
 
         # set data augmentation
         print('Using real-time data augmentation.')
@@ -164,8 +164,9 @@ class DenseNet:
         model.fit_generator(datagen.flow(x_train, y_train,batch_size=self.batch_size), steps_per_epoch=self.iterations, epochs=self.epochs, callbacks=cbks,validation_data=(x_test, y_test))
         model.save(self.model_filename)
 
-        self.param_count = self._model.count_params()
         self._model = model
+        self.param_count = self._model.count_params()
+
 
     def color_process(self, imgs):
         if imgs.ndim < 4:
